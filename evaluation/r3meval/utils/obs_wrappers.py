@@ -113,7 +113,7 @@ class StateEmbedding(gym.ObservationWrapper):
                         T.ToTensor()]) # ToTensor() divides by 255
         else:
             raise NameError("Invalid Model")
-        embedding.eval()
+        #embedding.eval()
 
         if device == 'cuda' and torch.cuda.is_available():
             print('Using CUDA.')
