@@ -144,7 +144,7 @@ def bc_train_loop(job_data:dict) -> None:
         if ((agent.steps % job_data['eval_frequency']) < (last_step % job_data['eval_frequency'])):
             agent.policy.model.eval()
             if job_data['pixel_based']:
-                e.env.embedding.eval()
+                e.env.mae.eval()
             paths = sample_paths(num_traj=job_data['eval_num_traj'], env=e, #env_constructor, 
                                  policy=agent.policy, eval_mode=True, horizon=e.horizon, 
                                  base_seed=job_data['seed']+epoch, num_cpu=job_data['num_cpu'], 
