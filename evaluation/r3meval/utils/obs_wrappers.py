@@ -16,6 +16,7 @@ from pathlib import Path
 import pickle
 from torchvision.utils import save_image
 import hydra
+from transformers import AutoImageProcessor, VideoMAEModel
 
 
 def init(module, weight_init, bias_init, gain=1):
@@ -95,6 +96,16 @@ class StateEmbedding(gym.ObservationWrapper):
             from r3m import load_r3m_reproduce
             rep = load_r3m_reproduce("r3m")
             rep.eval()
+            embedding_dim = rep.module.outdim
+            embedding = rep
+            self.transforms = T.Compose([T.Resize(256),
+                        T.CenterCrop(224),
+                        T.ToTensor()]) # ToTensor() divides by 255
+        elif "mae" == load_path:
+            mae = VideoMAEModel.from_pretrained("MCG-NJU/videomae-base")
+            rep = load_r3m_reproduce("r3m")
+            # rep = 
+            mae.eval()
             embedding_dim = rep.module.outdim
             embedding = rep
             self.transforms = T.Compose([T.Resize(256),
@@ -195,9 +206,9 @@ class MuJoCoPixelObs(gym.ObservationWrapper):
         return img
 
     def observation(self, observation):
-        print(self.reset_id)
-        if self.reset_id:
-            print("########")
+        # print(self.reset_id)
+        # if self.reset_id:
+        #     print("########")
         # This function creates observations based on the current state of the environment.
         # Argument `observation` is ignored, but `gym.ObservationWrapper` requires it.
         return self.get_image()
