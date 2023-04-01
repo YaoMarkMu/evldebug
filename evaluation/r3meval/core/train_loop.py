@@ -59,7 +59,7 @@ def make_bc_agent(env_kwargs:dict, bc_kwargs:dict, demo_paths:list, epochs:int, 
         
     ## Pass the encoder params to the BC agent (for finetuning)
     if pixel_based:
-        enc_p = e.env.embedding.parameters()
+        enc_p = e.env.mae.parameters()
     else:
         print("Only supports pixel based")
         assert(False)

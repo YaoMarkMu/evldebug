@@ -102,8 +102,8 @@ class StateEmbedding(gym.ObservationWrapper):
                         T.CenterCrop(224),
                         T.ToTensor()]) # ToTensor() divides by 255
         elif "mae" == load_path:
-            mae = VideoMAEModel.from_pretrained("MCG-NJU/videomae-base")
-            rep = lambda x, mae: mae(x.unsqueeze(1).repeat(1, 16, 1, 1, 1)).last_hidden_state
+            self.mae = VideoMAEModel.from_pretrained("MCG-NJU/videomae-base")
+            rep = lambda x, mae: self.mae(x.unsqueeze(1).repeat(1, 16, 1, 1, 1)).last_hidden_state
             # rep = 
             # mae.eval()
             embedding_dim = 2048
@@ -122,7 +122,7 @@ class StateEmbedding(gym.ObservationWrapper):
             print('Not using CUDA.')
             device = torch.device('cpu')
         self.device = device
-        mae.to(device=device)
+        self.mae.to(device=device)
 
         self.embedding, self.embedding_dim = embedding, embedding_dim
         self.observation_space = Box(
