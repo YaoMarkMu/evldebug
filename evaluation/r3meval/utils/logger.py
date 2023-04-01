@@ -17,9 +17,9 @@ class DataLog:
 
     def init_wb(self, cfg):
         print(cfg.keys())
-        wandb.init(project='r3mbc', entity='surajn', name=cfg.job_name)
-        fullcfg = {**cfg, **cfg.env_kwargs, **cfg.bc_kwargs}
-        wandb.config.update(fullcfg)
+        #wandb.init(project='r3mbc', entity='surajn', name=cfg.job_name)
+        #fullcfg = {**cfg, **cfg.env_kwargs, **cfg.bc_kwargs}
+        #wandb.config.update(fullcfg)
 
     def log_kv(self, key, value):
         # logs the (key, value) pair
@@ -34,7 +34,7 @@ class DataLog:
 
     def save_wb(self, step):
         logs = self.get_current_log()
-        wandb.log(logs, step = step)
+        #wandb.log(logs, step = step)
 
     def save_log(self, save_path):
         # TODO: Validate all lengths are the same.
