@@ -194,6 +194,7 @@ class MuJoCoPixelObs(gym.ObservationWrapper):
         return img
 
     def observation(self, observation):
+        print(self.reset_id)
         # This function creates observations based on the current state of the environment.
         # Argument `observation` is ignored, but `gym.ObservationWrapper` requires it.
         return self.get_image()
