@@ -180,6 +180,7 @@ class MuJoCoPixelObs(gym.ObservationWrapper):
         self.device_id = device_id
         if "v2" in env.spec.id:
             self.get_obs = env._get_obs
+        self.his=None
 
     def get_image(self):
         if self.camera_name == "default":
@@ -195,6 +196,8 @@ class MuJoCoPixelObs(gym.ObservationWrapper):
 
     def observation(self, observation):
         print(self.reset_id)
+        if self.reset_id:
+            print("########")
         # This function creates observations based on the current state of the environment.
         # Argument `observation` is ignored, but `gym.ObservationWrapper` requires it.
         return self.get_image()
