@@ -105,7 +105,7 @@ class StateEmbedding(gym.ObservationWrapper):
             mae = VideoMAEModel.from_pretrained("MCG-NJU/videomae-base")
             rep = lambda x, mae: mae(x.unsqueeze(1).repeat(1, 16, 1, 1, 1)).last_hidden_state
             # rep = 
-            mae.eval()
+            # mae.eval()
             embedding_dim = 2048
             embedding = rep
             self.transforms = T.Compose([T.Resize(256),
