@@ -93,6 +93,7 @@ def do_rollout(
         env_infos = []
         
         o = env.reset()
+        env.env.env.reset_id=True
         done = False
         t = 0
         ims = []
@@ -126,6 +127,7 @@ def do_rollout(
             env_infos.append(env_info)
             o = next_o
             t += 1
+            env.env.env.reset_id=False
 
         path = dict(
             observations=np.array(observations),
