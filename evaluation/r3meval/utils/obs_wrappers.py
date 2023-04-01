@@ -122,7 +122,7 @@ class StateEmbedding(gym.ObservationWrapper):
             print('Not using CUDA.')
             device = torch.device('cpu')
         self.device = device
-        embedding.to(device=device)
+        mae.to(device=device)
 
         self.embedding, self.embedding_dim = embedding, embedding_dim
         self.observation_space = Box(
