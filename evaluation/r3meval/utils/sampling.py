@@ -74,7 +74,7 @@ def do_rollout(
         np.random.seed()
     # horizon = min(horizon, env.horizon)
     paths = []
-
+    env.env.env.reset_id=False
     ep = 0
     while ep < num_traj:
         # seeding
@@ -91,7 +91,7 @@ def do_rollout(
         rewards=[]
         agent_infos = []
         env_infos = []
-
+        
         o = env.reset()
         done = False
         t = 0
