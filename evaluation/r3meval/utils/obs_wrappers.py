@@ -106,7 +106,7 @@ class StateEmbedding(gym.ObservationWrapper):
             rep = lambda x: torch.mean(self.mae(x.unsqueeze(1).repeat(1, 16, 1, 1, 1)).last_hidden_state.reshape(-1,8,196*768)[:,-1,:].reshape(-1,196,768),dim=1)
             # rep = 
             # mae.eval()
-            embedding_dim = 196*768
+            embedding_dim = 768
             embedding = rep
             self.transforms = T.Compose([T.Resize(256),
                         T.CenterCrop(224),
