@@ -103,7 +103,7 @@ class StateEmbedding(gym.ObservationWrapper):
                         T.ToTensor()]) # ToTensor() divides by 255
         elif "mae" == load_path:
             mae = VideoMAEModel.from_pretrained("MCG-NJU/videomae-base")
-            rep = load_r3m_reproduce("r3m")
+            rep = lambda x, mae: mae(x.unsqueeze(1).repeat(1, 16, 1, 1, 1))
             # rep = 
             mae.eval()
             embedding_dim = rep.module.outdim
