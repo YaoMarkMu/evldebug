@@ -136,6 +136,7 @@ class StateEmbedding(gym.ObservationWrapper):
                 ## R3M Expects input to be 0-255, preprocess makes 0-1
                 inp *= 255.0
             inp = inp.to(self.device)
+            print(inp.shape)
             with torch.no_grad():
                 emb = self.embedding(inp).view(-1, self.embedding_dim).to('cpu').numpy().squeeze()
 
