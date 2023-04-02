@@ -17,6 +17,17 @@ import pickle
 from torchvision.utils import save_image
 import hydra
 from transformers import AutoImageProcessor, VideoMAEModel
+from our_model import Evlgpt
+def clean_state_dict(state_dict):
+    # 假设state_dict是一个包含参数的字典
+    new_state_dict = {}
+    for key, value in state_dict.items():
+        if key.startswith("videomae."):
+            new_key = key[len("videomae."):]
+        else:
+            new_key = key
+        new_state_dict[new_key] = value
+    return new_state_dict
 
 
 def init(module, weight_init, bias_init, gain=1):
@@ -79,6 +90,12 @@ class StateEmbedding(gym.ObservationWrapper):
         self.proprio = proprio
         self.load_path = load_path
         self.start_finetune = False
+        self.evl=Evlgpt()
+        self.state_dict=torch.load("/home/muyao/r_test/epoch_1_model.pth")
+        self.evl.load_state_dict(self.state_dict)
+        vision_model=self.evl.vision_model
+        vision_state_dict=vision_model.state_dict()
+
         if load_path == "clip":
             import clip
             model, cliptransforms = clip.load("RN50", device="cuda")
@@ -103,6 +120,7 @@ class StateEmbedding(gym.ObservationWrapper):
                         T.ToTensor()]) # ToTensor() divides by 255
         elif "mae" == load_path:
             self.mae = VideoMAEModel.from_pretrained("MCG-NJU/videomae-base")
+            self.load_state_dict(clean_state_dict(vision_state_dict),strict=False)
             rep = lambda x: torch.mean(self.mae(x.unsqueeze(1).repeat(1, 16, 1, 1, 1)).last_hidden_state.reshape(-1,8,196*768)[:,-1,:].reshape(-1,196,768),dim=1)
             # rep = 
             # mae.eval()
