@@ -17,7 +17,7 @@ import pickle
 from torchvision.utils import save_image
 import hydra
 from transformers import AutoImageProcessor, VideoMAEModel
-from our_model import Evlgpt
+from .our_model import Evlgpt
 def clean_state_dict(state_dict):
     # 假设state_dict是一个包含参数的字典
     new_state_dict = {}
