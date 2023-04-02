@@ -120,7 +120,7 @@ class StateEmbedding(gym.ObservationWrapper):
                         T.ToTensor()]) # ToTensor() divides by 255
         elif "mae" == load_path:
             self.mae = VideoMAEModel.from_pretrained("MCG-NJU/videomae-base")
-            self.load_state_dict(clean_state_dict(vision_state_dict),strict=False)
+            self.mae.load_state_dict(clean_state_dict(vision_state_dict),strict=False)
             rep = lambda x: torch.mean(self.mae(x.unsqueeze(1).repeat(1, 16, 1, 1, 1)).last_hidden_state.reshape(-1,8,196*768)[:,-1,:].reshape(-1,196,768),dim=1)
             # rep = 
             # mae.eval()
