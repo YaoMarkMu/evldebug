@@ -127,7 +127,8 @@ class StateEmbedding(gym.ObservationWrapper):
             embedding_dim = 768
             embedding = rep
             self.transforms = T.Compose([T.Resize(256),
-                        T.CenterCrop(224),
+                        T.CenterCrop(256),
+                        T.Resize(224),
                         T.ToTensor()]) # ToTensor() divides by 255
         else:
             raise NameError("Invalid Model")
